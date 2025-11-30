@@ -179,69 +179,7 @@ I'm your AI-powered debugging assistant. I'll help you:
 
 Paste your error message along with the relevant code snippet, and I'll investigate the issue for you.
 
----
-
-### 🟢 Basic Example
-
-\`\`\`javascript
-const numbers = [1, 2, 3];
-console.log(numbers[5].toString());
-
-// Error:
-// TypeError: Cannot read properties of undefined (reading 'toString')
-\`\`\`
-
----
-
-### 🟡 Medium Example
-
-\`\`\`javascript
-// api.js
-async function fetchUserData(userId) {
-  const response = await fetch(\`/api/users/\${userId}\`);
-  const data = await response.json();
-  return data;
-}
-
-// App.jsx
-useEffect(() => {
-  const user = fetchUserData(123);
-  console.log(user.name);
-}, []);
-
-// Error:
-// TypeError: Cannot read properties of undefined (reading 'name')
-// Promise { <pending> }
-\`\`\`
-
----
-
-### 🔴 Advanced Example
-
-\`\`\`typescript
-// useAuth.ts
-interface User { id: string; role: 'admin' | 'user'; }
-
-const AuthContext = createContext<User | null>(null);
-
-// ProtectedRoute.tsx
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const user = useContext(AuthContext);
-  
-  if (user.role !== 'admin') {  // Line 12
-    return <Navigate to="/unauthorized" />;
-  }
-  return <>{children}</>;
-};
-
-// Error:
-// TypeError: Cannot read properties of null (reading 'role')
-//   at ProtectedRoute (ProtectedRoute.tsx:12:11)
-//   at renderWithHooks (react-dom.development.js:14985)
-//   at mountIndeterminateComponent (react-dom.development.js:17811)
-\`\`\`
-
----
+📚 **[View Documentation](/docs)** for examples and best practices.
 
 **Ready when you are! 🚀**`,
       timestamp: new Date(),

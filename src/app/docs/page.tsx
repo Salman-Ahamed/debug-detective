@@ -74,35 +74,187 @@ const DocsPage = () => {
               <span className="text-4xl">💡</span>
               Usage Examples
             </h2>
-            <div className="space-y-6">
+            <div className="space-y-8">
+              {/* Basic Example */}
               <div>
-                <h3 className="text-xl font-bold mb-3">
-                  Example 1: JavaScript Error
-                </h3>
-                <div className="bg-black/50 p-4 rounded-lg font-mono text-sm">
-                  <div className="text-red-400">
-                    TypeError: Cannot read property &apos;map&apos; of undefined
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="w-3 h-3 rounded-full bg-green-500"></span>
+                  <h3 className="text-xl font-bold text-green-400">
+                    Basic Example
+                  </h3>
+                </div>
+                <div className="bg-black/50 p-4 rounded-lg font-mono text-sm border border-green-500/20">
+                  <div className="text-slate-300">
+                    {`const numbers = [1, 2, 3];
+console.log(numbers[5].toString());`}
                   </div>
-                  <div className="text-slate-400 mt-2">
-                    {`function UserList() {
-  const [users, setUsers] = useState();
-  return <ul>{users.map(user => <li>{user.name}</li>)}</ul>;
-}`}
+                  <div className="text-red-400 mt-3 pt-3 border-t border-slate-700">
+                    {`// Error:
+// TypeError: Cannot read properties of undefined (reading 'toString')`}
                   </div>
                 </div>
               </div>
 
+              {/* Medium Example */}
               <div>
-                <h3 className="text-xl font-bold mb-3">
-                  Example 2: Python Error
-                </h3>
-                <div className="bg-black/50 p-4 rounded-lg font-mono text-sm">
-                  <div className="text-red-400">
-                    IndexError: list index out of range
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
+                  <h3 className="text-xl font-bold text-yellow-400">
+                    Medium Example
+                  </h3>
+                </div>
+                <div className="bg-black/50 p-4 rounded-lg font-mono text-sm border border-yellow-500/20">
+                  <div className="text-slate-300">
+                    {`// api.js
+async function fetchUserData(userId) {
+  const response = await fetch(\`/api/users/\${userId}\`);
+  const data = await response.json();
+  return data;
+}
+
+// App.jsx
+useEffect(() => {
+  const user = fetchUserData(123);
+  console.log(user.name);
+}, []);`}
                   </div>
-                  <div className="text-slate-400 mt-2">
-                    {`my_list = [1, 2, 3]
-print(my_list[5])`}
+                  <div className="text-red-400 mt-3 pt-3 border-t border-slate-700">
+                    {`// Error:
+// TypeError: Cannot read properties of undefined (reading 'name')
+// Promise { <pending> }`}
+                  </div>
+                </div>
+              </div>
+
+              {/* Advanced Example */}
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="w-3 h-3 rounded-full bg-red-500"></span>
+                  <h3 className="text-xl font-bold text-red-400">
+                    Advanced Example
+                  </h3>
+                </div>
+                <div className="bg-black/50 p-4 rounded-lg font-mono text-sm border border-red-500/20">
+                  <div className="text-slate-300">
+                    {`// useAuth.ts
+interface User { id: string; role: 'admin' | 'user'; }
+
+const AuthContext = createContext<User | null>(null);
+
+// ProtectedRoute.tsx
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const user = useContext(AuthContext);
+  
+  if (user.role !== 'admin') {  // Line 12
+    return <Navigate to="/unauthorized" />;
+  }
+  return <>{children}</>;
+};`}
+                  </div>
+                  <div className="text-red-400 mt-3 pt-3 border-t border-slate-700">
+                    {`// Error:
+// TypeError: Cannot read properties of null (reading 'role')
+//   at ProtectedRoute (ProtectedRoute.tsx:12:11)
+//   at renderWithHooks (react-dom.development.js:14985)
+//   at mountIndeterminateComponent (react-dom.development.js:17811)`}
+                  </div>
+                </div>
+              </div>
+
+              {/* CORS Error */}
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="w-3 h-3 rounded-full bg-orange-500"></span>
+                  <h3 className="text-xl font-bold text-orange-400">
+                    🌐 CORS Error
+                  </h3>
+                </div>
+                <div className="bg-black/50 p-4 rounded-lg font-mono text-sm border border-orange-500/20">
+                  <div className="text-slate-300">
+                    {`// Frontend - React App
+const fetchData = async () => {
+  const response = await fetch('https://api.example.com/users');
+  const data = await response.json();
+  return data;
+};
+
+// Calling from http://localhost:3000`}
+                  </div>
+                  <div className="text-red-400 mt-3 pt-3 border-t border-slate-700">
+                    {`// Error:
+// Access to fetch at 'https://api.example.com/users' from origin 
+// 'http://localhost:3000' has been blocked by CORS policy: 
+// No 'Access-Control-Allow-Origin' header is present on the 
+// requested resource.`}
+                  </div>
+                </div>
+              </div>
+
+              {/* Infinite Loop */}
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="w-3 h-3 rounded-full bg-purple-500"></span>
+                  <h3 className="text-xl font-bold text-purple-400">
+                    🔄 React Infinite Loop
+                  </h3>
+                </div>
+                <div className="bg-black/50 p-4 rounded-lg font-mono text-sm border border-purple-500/20">
+                  <div className="text-slate-300">
+                    {`// ProductList.jsx
+const ProductList = () => {
+  const [products, setProducts] = useState([]);
+  const [filter, setFilter] = useState('all');
+
+  useEffect(() => {
+    const filtered = products.filter(p => p.category === filter);
+    setProducts(filtered);  // This triggers re-render!
+  }, [products, filter]);   // products in dependency causes loop
+
+  return <div>{products.map(p => <Product key={p.id} {...p} />)}</div>;
+};`}
+                  </div>
+                  <div className="text-red-400 mt-3 pt-3 border-t border-slate-700">
+                    {`// Error:
+// Warning: Maximum update depth exceeded. This can happen when a 
+// component calls setState inside useEffect, but useEffect either 
+// doesn't have a dependency array, or one of the dependencies 
+// changes on every render.`}
+                  </div>
+                </div>
+              </div>
+
+              {/* Memory Leak */}
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="w-3 h-3 rounded-full bg-pink-500"></span>
+                  <h3 className="text-xl font-bold text-pink-400">
+                    💾 Memory Leak
+                  </h3>
+                </div>
+                <div className="bg-black/50 p-4 rounded-lg font-mono text-sm border border-pink-500/20">
+                  <div className="text-slate-300">
+                    {`// Dashboard.jsx
+const Dashboard = () => {
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      const data = await fetchDashboardStats();
+      setStats(data);
+    }, 5000);
+    
+    // Missing cleanup! Should return () => clearInterval(interval);
+  }, []);
+
+  return <div>{stats?.totalUsers} users online</div>;
+};`}
+                  </div>
+                  <div className="text-red-400 mt-3 pt-3 border-t border-slate-700">
+                    {`// Error:
+// Warning: Can't perform a React state update on an unmounted 
+// component. This is a no-op, but it indicates a memory leak in 
+// your application. To fix, cancel all subscriptions and 
+// asynchronous tasks in a useEffect cleanup function.`}
                   </div>
                 </div>
               </div>

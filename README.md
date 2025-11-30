@@ -25,17 +25,20 @@ Debug Detective is an intelligent, AI-powered debugging assistant that transform
 ## 🏁 Getting Started
 
 1.  **Clone the repository:**
+
     ```bash
-    git clone https://github.com/EyachirArafat/debug-detective.git
+    git clone https://github.com/Salman-Ahamed/debug-detective
     cd debug-detective
     ```
 
 2.  **Install dependencies:**
+
     ```bash
     npm install
     ```
 
 3.  **Run the development server:**
+
     ```bash
     npm run dev
     ```
